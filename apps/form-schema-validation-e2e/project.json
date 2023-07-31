@@ -1,0 +1,33 @@
+{
+  "name": "form-schema-validation-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/form-schema-validation-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/form-schema-validation-e2e/cypress.config.ts",
+        "devServerTarget": "form-schema-validation:serve:development",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "form-schema-validation:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "form-schema-validation:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/form-schema-validation-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["form-schema-validation"]
+}
