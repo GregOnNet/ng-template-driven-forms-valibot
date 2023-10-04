@@ -15,6 +15,7 @@ import { provideFormsExtensions } from '@ng/form';
   ],
   template: `
     <ng-container ngModelGroup="passwords">
+
       <mat-form-field>
         <mat-label>Password</mat-label>
         <input
@@ -37,7 +38,10 @@ import { provideFormsExtensions } from '@ng/form';
           name="passwordConfirmed"
         />
         <mat-error></mat-error>
+
       </mat-form-field>
+
+      <ng-error path="passwords"/>
     </ng-container>
   `,
   styles: [

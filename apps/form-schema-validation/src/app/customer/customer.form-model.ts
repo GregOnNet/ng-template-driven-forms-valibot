@@ -16,7 +16,9 @@ export const CustomerFormModelSchema = object({
       password: string([
         minLength(2, 'The password must contain at least 2 characters'),
       ]),
-      passwordConfirmed: string(),
+      passwordConfirmed: string([
+        minLength(2, 'The password must contain at least 2 characters'),
+      ]),
     },
     [
       custom(({ password, passwordConfirmed }) => {
