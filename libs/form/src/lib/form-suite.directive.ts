@@ -5,10 +5,10 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { BehaviorSubject, distinctUntilChanged, tap } from 'rxjs';
-import { merge } from 'lodash';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgForm } from '@angular/forms';
+import { merge } from 'lodash-es';
+import { BehaviorSubject, distinctUntilChanged, tap } from 'rxjs';
 import { BaseSchema, Output, safeParse } from 'valibot';
 
 @Directive({
@@ -76,7 +76,7 @@ export class FormSuiteDirective<TSchema extends BaseSchema>
       return null;
     }
 
-    return result.error.issues.reduce((record, error) => {
+    return result.issues.reduce((record, error) => {
       const path = error.path?.map((segment) => segment.key).join('.');
 
       if (!path) return record;

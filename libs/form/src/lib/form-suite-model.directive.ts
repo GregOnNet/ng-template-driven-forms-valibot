@@ -5,11 +5,11 @@ import {
   inject,
   Input,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgControl } from '@angular/forms';
+import { tap } from 'rxjs';
 import { FormSuiteDirective } from './form-suite.directive';
 import { getControlPath } from './get-control-path';
-import { tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -21,7 +21,7 @@ export class FormSuiteModelDirective implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly formDirective = inject(FormSuiteDirective);
 
-  @Input({ required: true }) name: string = '';
+  @Input({ required: true }) name = '';
 
   ngAfterViewInit(): void {
     this.formDirective.errors$
