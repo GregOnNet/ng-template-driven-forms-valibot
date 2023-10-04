@@ -19,7 +19,7 @@
           "apps/form-schema-validation/src/favicon.ico",
           "apps/form-schema-validation/src/assets"
         ],
-        "styles": ["apps/form-schema-validation/src/styles.css"],
+        "styles": ["apps/form-schema-validation/src/styles.scss"],
         "scripts": []
       },
       "configurations": {

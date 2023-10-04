@@ -1,6 +1,1 @@
-<form [props]="{schema,model}">
-  <input type="text" [ngModel]="model.text" #ngModel="ngModel" name="text" />
-  <strong *ngIf="ngModel.hasError('auto') && ngModel.touched">{{
-    ngModel.getError('auto')
-  }}</strong>
-</form>
+<ng-customer-form></ng-customer-form>

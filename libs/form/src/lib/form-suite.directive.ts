@@ -76,12 +76,16 @@ export class FormSuiteDirective<TSchema extends BaseSchema>
       return null;
     }
 
-    return result.issues.reduce((record, error) => {
+    const r = result.issues.reduce((record, error) => {
       const path = error.path?.map((segment) => segment.key).join('.');
 
       if (!path) return record;
 
       return Object.assign(record, { [path]: { auto: error.message } });
     }, {});
+
+    console.log('R', r);
+
+    return r;
   }
 }

@@ -1,2 +1,2 @@
-export * from './lib/provide-form-suite';
-export * from './lib/connect-parent-ng-form';
+export * from './lib/connect-to-ng-form';
+export * from './lib/provide-form-extensions';
