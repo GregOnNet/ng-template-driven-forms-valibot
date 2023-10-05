@@ -8,7 +8,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgControl } from '@angular/forms';
 import { tap } from 'rxjs';
-import { FormSuiteDirective } from './form-suite.directive';
+import { FormSettingDirective } from './form-setting.directive';
 import { getControlPath } from './get-control-path';
 
 @Directive({
@@ -19,7 +19,7 @@ import { getControlPath } from './get-control-path';
 export class FormSuiteModelDirective implements AfterViewInit {
   private readonly ngControl = inject(NgControl);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly formDirective = inject(FormSuiteDirective);
+  private readonly formDirective = inject(FormSettingDirective);
 
   @Input({ required: true }) name = '';
 
