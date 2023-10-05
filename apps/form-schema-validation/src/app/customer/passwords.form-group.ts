@@ -14,7 +14,7 @@ import { connectToNgForm, provideFormsSetting } from '@ng/form';
     <ng-container ngModelGroup="passwords">
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input type="password" autocomplete="new-password" matInput [(ngModel)]="passwords.password" name="password" />
+        <input type="password" autocomplete="new-password" matInput [ngModel]="passwords.password" name="password" />
         <mat-error></mat-error>
       </mat-form-field>
 
@@ -24,7 +24,7 @@ import { connectToNgForm, provideFormsSetting } from '@ng/form';
           type="password"
           autocomplete="new-password"
           matInput
-          [(ngModel)]="passwords.passwordConfirmed"
+          [ngModel]="passwords.passwordConfirmed"
           name="passwordConfirmed"
         />
         <mat-error></mat-error>

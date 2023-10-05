@@ -8,39 +8,20 @@ import { connectToNgForm, provideFormsSetting } from '@ng/form';
 @Component({
   selector: 'ng-names-form-group',
   standalone: true,
-  imports: [
-    NgIf,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    provideFormsSetting(),
-  ],
+  imports: [NgIf, MatFormFieldModule, MatInputModule, FormsModule, provideFormsSetting()],
   template: `
     <h3>💁🏻‍♂️ What's your name?</h3>
 
     <ng-container ngModelGroup="names">
       <mat-form-field>
         <mat-label>First Name</mat-label>
-        <input
-          type="text"
-          autocomplete="name"
-          matInput
-          [(ngModel)]="names.firstName"
-          name="firstName"
-          #name="ngModel"
-        />
+        <input type="text" autocomplete="name" matInput [ngModel]="names.firstName" name="firstName" #name="ngModel" />
         <mat-error></mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Last Name</mat-label>
-        <input
-          type="text"
-          autocomplete="family-name"
-          matInput
-          [(ngModel)]="names.lastName"
-          name="lastName"
-        />
+        <input type="text" autocomplete="family-name" matInput [ngModel]="names.lastName" name="lastName" />
         <mat-error></mat-error>
       </mat-form-field>
     </ng-container>
