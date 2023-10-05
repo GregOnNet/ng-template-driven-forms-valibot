@@ -1,21 +1,16 @@
 <form
-  #form="ngForm"
-  [props]="formDefinition"
+  [setting]="formSetting"
   style="display: grid; gap: 1em; place-items: center"
   (ngSubmit)="save()"
 >
   <h2>Create a new Customer</h2>
 
-  <h3>💁🏻‍♂️ What's your name?</h3>
-
   <ng-names-form-group
-    [names]="formDefinition.model.names"
+    [names]="formSetting.model.names"
   ></ng-names-form-group>
 
-  <h3>🔒 Set your Password</h3>
-
   <ng-passwords-form-group
-    [passwords]="formDefinition.model.passwords"
+    [passwords]="formSetting.model.passwords"
   ></ng-passwords-form-group>
 
   <button mat-raised-button color="primary">Save</button>

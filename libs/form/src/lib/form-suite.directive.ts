@@ -25,7 +25,7 @@ export class FormSuiteDirective<TSchema extends BaseSchema>
   #schema?: TSchema;
   #model?: Output<TSchema>;
 
-  @Input({ required: true }) set props(value: {
+  @Input({ required: true }) set setting(value: {
     schema: TSchema;
     model: Output<TSchema>;
   }) {

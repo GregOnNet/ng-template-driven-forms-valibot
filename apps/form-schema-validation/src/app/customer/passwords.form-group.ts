@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { connectToNgForm, provideFormsExtensions } from '@ng/form';
+import { connectToNgForm, provideFormsSetting } from '@ng/form';
 
 @Component({
   selector: 'ng-passwords-form-group',
@@ -11,9 +11,11 @@ import { connectToNgForm, provideFormsExtensions } from '@ng/form';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    provideFormsExtensions(),
+    provideFormsSetting(),
   ],
   template: `
+    <h3>🔒 Set your Password</h3>
+
     <ng-container ngModelGroup="passwords">
 
       <mat-form-field>

@@ -29,11 +29,11 @@ export const CustomerFormSchema = object({
   ),
 });
 
-export type CustomerFormModel = Output<typeof CustomerFormSchema>;
+export type CustomerFormSetting = Output<typeof CustomerFormSchema>;
 
-export function initializeCustomerFormDefinition(): {
+export function initializeCustomerFormSetting(): {
   schema: typeof CustomerFormSchema;
-  model: CustomerFormModel;
+  model: CustomerFormSetting;
 } {
   return {
     schema: CustomerFormSchema,

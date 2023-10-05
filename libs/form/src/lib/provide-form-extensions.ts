@@ -5,7 +5,7 @@ import { FormSuiteDirective } from './form-suite.directive';
 import { MatErrorComponent } from './mat-error.component';
 import { MatFormFieldDirective } from './mat-form-field.directive';
 
-export function provideFormsExtensions() {
+export function provideFormsSetting() {
   return [
     FormSuiteDirective,
     FormSuiteModelDirective,

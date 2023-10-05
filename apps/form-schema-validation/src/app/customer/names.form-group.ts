@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { connectToNgForm, provideFormsExtensions } from '@ng/form';
+import { connectToNgForm, provideFormsSetting } from '@ng/form';
 
 @Component({
   selector: 'ng-names-form-group',
@@ -13,9 +13,11 @@ import { connectToNgForm, provideFormsExtensions } from '@ng/form';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    provideFormsExtensions(),
+    provideFormsSetting(),
   ],
   template: `
+    <h3>💁🏻‍♂️ What's your name?</h3>
+
     <ng-container ngModelGroup="names">
       <mat-form-field>
         <mat-label>First Name</mat-label>
