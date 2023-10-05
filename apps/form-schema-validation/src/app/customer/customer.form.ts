@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideFormsExtensions } from '@ng/form';
-import { createEmptyCustomerFormModel } from './customer.form-model';
+import { initializeCustomerFormDefinition } from './customer.form-model';
 import { NamesForm } from './names.form-group';
 import { PasswordsForm } from './passwords.form-group';
 
@@ -20,7 +20,7 @@ import { PasswordsForm } from './passwords.form-group';
   ],
 })
 export class CustomerForm {
-  protected readonly formDefinition = createEmptyCustomerFormModel();
+  protected readonly formDefinition = initializeCustomerFormDefinition();
 
   save() {
     throw new Error('Method not implemented.');

@@ -1,6 +1,6 @@
 import { custom, minLength, object, Output, string } from 'valibot';
 
-export const CustomerFormModelSchema = object({
+export const CustomerFormSchema = object({
   names: object({
     firstName: string([
       minLength(1, 'Please enter your first name.'),
@@ -29,14 +29,14 @@ export const CustomerFormModelSchema = object({
   ),
 });
 
-export type CustomerFormModel = Output<typeof CustomerFormModelSchema>;
+export type CustomerFormModel = Output<typeof CustomerFormSchema>;
 
-export function createEmptyCustomerFormModel(): {
-  schema: typeof CustomerFormModelSchema;
+export function initializeCustomerFormDefinition(): {
+  schema: typeof CustomerFormSchema;
   model: CustomerFormModel;
 } {
   return {
-    schema: CustomerFormModelSchema,
+    schema: CustomerFormSchema,
     model: {
       names: { firstName: '', lastName: '' },
       passwords: { password: '', passwordConfirmed: '' },
