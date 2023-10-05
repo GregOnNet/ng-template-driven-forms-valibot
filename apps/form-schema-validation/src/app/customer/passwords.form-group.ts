@@ -7,26 +7,14 @@ import { connectToNgForm, provideFormsSetting } from '@ng/form';
 @Component({
   selector: 'ng-passwords-form-group',
   standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    provideFormsSetting(),
-  ],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, provideFormsSetting()],
   template: `
     <h3>🔒 Set your Password</h3>
 
     <ng-container ngModelGroup="passwords">
-
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input
-          type="password"
-          autocomplete="new-password"
-          matInput
-          [(ngModel)]="passwords.password"
-          name="password"
-        />
+        <input type="password" autocomplete="new-password" matInput [(ngModel)]="passwords.password" name="password" />
         <mat-error></mat-error>
       </mat-form-field>
 
@@ -40,10 +28,9 @@ import { connectToNgForm, provideFormsSetting } from '@ng/form';
           name="passwordConfirmed"
         />
         <mat-error></mat-error>
-
       </mat-form-field>
 
-      <ng-error path="passwords"/>
+      <!--      <ng-error path="passwords"/>-->
     </ng-container>
   `,
   styles: [

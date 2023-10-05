@@ -13,19 +13,10 @@ export const CustomerFormSchema = object({
   }),
   passwords: object(
     {
-      password: string([
-        minLength(2, 'The password must contain at least 2 characters'),
-      ]),
-      passwordConfirmed: string([
-        minLength(2, 'The password must contain at least 2 characters'),
-      ]),
+      password: string([minLength(2, 'The password must contain at least 2 characters')]),
+      passwordConfirmed: string([minLength(2, 'The password must contain at least 2 characters')]),
     },
-    [
-      custom(({ password, passwordConfirmed }) => {
-        console.log(password, passwordConfirmed);
-        return password === passwordConfirmed;
-      }, 'The passwords do not match.'),
-    ]
+    [custom(({ password, passwordConfirmed }) => password === passwordConfirmed, 'The passwords do not match.')]
   ),
 });
 

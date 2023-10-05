@@ -17,7 +17,7 @@ import { BaseSchema, Output, safeParse } from 'valibot';
   selector: 'form',
   standalone: true,
 })
-export class FormSuiteDirective<TSchema extends BaseSchema>
+export class FormSettingDirective<TSchema extends BaseSchema>
   implements AfterViewInit
 {
   private readonly destroyRef = inject(DestroyRef);
@@ -76,16 +76,12 @@ export class FormSuiteDirective<TSchema extends BaseSchema>
       return null;
     }
 
-    const r = result.issues.reduce((record, error) => {
+    return result.issues.reduce((record, error) => {
       const path = error.path?.map((segment) => segment.key).join('.');
 
       if (!path) return record;
 
       return Object.assign(record, { [path]: { auto: error.message } });
     }, {});
-
-    console.log('R', r);
-
-    return r;
   }
 }

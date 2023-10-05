@@ -1,18 +1,14 @@
-import { ErrorComponent } from './error.component';
-import { FormSuiteModelGroupDirective } from './form-suite-model-group.directive';
-import { FormSuiteModelDirective } from './form-suite-model.directive';
-import { FormSuiteDirective } from './form-suite.directive';
+import { NgModelGroupErrorSubscriberDirective } from './ng-model-group-error-subscriber.directive';
+import { NgModelErrorSubscriberDirective } from './ng-model-error-subscriber.directive';
+import { FormSettingDirective } from './form-setting.directive';
 import { MatErrorComponent } from './mat-error.component';
 import { MatFormFieldDirective } from './mat-form-field.directive';
 
 export function provideFormsSetting() {
   return [
-    FormSuiteDirective,
-    FormSuiteModelDirective,
-    FormSuiteModelGroupDirective,
-
-    // Core
-    ErrorComponent,
+    FormSettingDirective,
+    NgModelErrorSubscriberDirective,
+    NgModelGroupErrorSubscriberDirective,
 
     // Material
     MatFormFieldDirective,
