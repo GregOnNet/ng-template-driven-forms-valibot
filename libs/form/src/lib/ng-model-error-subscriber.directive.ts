@@ -1,4 +1,4 @@
-import { AfterViewInit, DestroyRef, Directive, inject, Input } from '@angular/core';
+import { AfterViewInit, DestroyRef, Directive, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgControl } from '@angular/forms';
 import { tap } from 'rxjs';
@@ -15,8 +15,6 @@ export class NgModelErrorSubscriberDirective implements AfterViewInit {
   readonly #ngControl = inject(NgControl);
   readonly #formSetting = inject(FormSettingDirective);
 
-  @Input({ required: true }) name = '';
-
   ngAfterViewInit(): void {
     this.#bindFormSettingErrors().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
   }
@@ -24,7 +22,11 @@ export class NgModelErrorSubscriberDirective implements AfterViewInit {
   #bindFormSettingErrors() {
     return this.#formSetting.errors$.pipe(
       tap((errors) => {
-        const controlPath = getControlPath(this.#formSetting.ngForm.control, this.name, this.#ngControl.control);
+        const controlPath = getControlPath(
+          this.#formSetting.ngForm.control,
+          this.#ngControl.name?.toString() || '',
+          this.#ngControl.control
+        );
         const error = errors?.[controlPath] ?? null;
 
         if (error) this.#ngControl.control?.setErrors(error);
