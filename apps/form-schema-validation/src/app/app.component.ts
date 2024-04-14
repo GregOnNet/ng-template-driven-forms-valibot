@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { CustomerForm } from './customer/customer.form';
+import { CustomerFormComponent } from './customer/customer.form.component';
 
 @Component({
   standalone: true,
   selector: 'ng-root',
-  imports: [CustomerForm],
+  imports: [CustomerFormComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
