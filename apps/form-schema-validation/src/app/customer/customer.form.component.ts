@@ -20,7 +20,6 @@ import { PasswordsFormFragmentComponent } from './passwords-form-fragment.compon
   ],
   template: `
     <form
-      #form="ngForm"
       [schema]="customerFormSchema"
       (safeSubmit)="save($event)"
       (valueChanged)="formValue.set($event)"
