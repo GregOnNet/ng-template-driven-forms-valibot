@@ -7,12 +7,12 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/form-schema-validation",
         "index": "apps/form-schema-validation/src/index.html",
-        "main": "apps/form-schema-validation/src/main.ts",
+        "browser": "apps/form-schema-validation/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/form-schema-validation/tsconfig.app.json",
         "assets": ["apps/form-schema-validation/src/favicon.ico", "apps/form-schema-validation/src/assets"],
@@ -36,9 +36,7 @@
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
