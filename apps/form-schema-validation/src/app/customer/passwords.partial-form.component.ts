@@ -3,15 +3,17 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { formViewProviders, provideFormsSetting } from '@ng/form';
+import { input } from '@angular/core';
 
 @Component({
   selector: 'ng-passwords-form-group',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, FormsModule, provideFormsSetting()],
+
   template: `
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input type="password" autocomplete="new-password" matInput [ngModel]="passwords.password" name="password" />
+      <input type="password" autocomplete="new-password" matInput [ngModel]="passwords().password" name="password" />
       <mat-error></mat-error>
     </mat-form-field>
 
@@ -21,13 +23,13 @@ import { formViewProviders, provideFormsSetting } from '@ng/form';
         type="password"
         autocomplete="new-password"
         matInput
-        [ngModel]="passwords.passwordConfirmed"
+        [ngModel]="passwords().passwordConfirmed"
         name="passwordConfirmed"
       />
       <mat-error></mat-error>
     </mat-form-field>
 
-    <!--      <ng-error path="passwords"/>-->
+    <!--      <ng-error path="passwords()"/>-->
   `,
   styles: [
     `
@@ -40,8 +42,11 @@ import { formViewProviders, provideFormsSetting } from '@ng/form';
   viewProviders: [formViewProviders],
 })
 export class PasswordsForm {
-  @Input() passwords: { password: string; passwordConfirmed: string } = {
+  passwords = input<{
+    password: string;
+    passwordConfirmed: string;
+  }>({
     password: '',
     passwordConfirmed: '',
-  };
+  });
 }

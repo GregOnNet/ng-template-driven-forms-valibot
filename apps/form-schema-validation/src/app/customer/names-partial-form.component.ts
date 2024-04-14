@@ -4,21 +4,23 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { formViewProviders, provideFormsSetting } from '@ng/form';
+import { input } from '@angular/core';
 
 @Component({
   selector: 'ng-names-form-group',
   standalone: true,
   imports: [NgIf, MatFormFieldModule, MatInputModule, FormsModule, provideFormsSetting()],
+
   template: `
     <mat-form-field>
       <mat-label>First Name</mat-label>
-      <input type="text" autocomplete="name" matInput [ngModel]="names.firstName" name="firstName" #name="ngModel" />
+      <input type="text" autocomplete="name" matInput [ngModel]="names().firstName" name="firstName" #name="ngModel" />
       <mat-error></mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Last Name</mat-label>
-      <input type="text" autocomplete="family-name" matInput [ngModel]="names.lastName" name="lastName" />
+      <input type="text" autocomplete="family-name" matInput [ngModel]="names().lastName" name="lastName" />
       <mat-error></mat-error>
     </mat-form-field>
   `,
@@ -33,8 +35,11 @@ import { formViewProviders, provideFormsSetting } from '@ng/form';
   viewProviders: [formViewProviders],
 })
 export class NamesForm {
-  @Input() names: { firstName: string; lastName: string } = {
+  names = input<{
+    firstName: string;
+    lastName: string;
+  }>({
     firstName: '',
     lastName: '',
-  };
+  });
 }

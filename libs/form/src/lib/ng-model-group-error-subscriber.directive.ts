@@ -5,20 +5,22 @@ import {
   DestroyRef,
   Directive,
   inject,
-  Input,
+  input,
+  model,
   OnDestroy,
   ViewContainerRef,
 } from '@angular/core';
-import { FormSettingDirective } from './form-setting.directive';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
+import { FormSettingDirective } from './form-setting.directive';
 
 @Component({
   standalone: true,
-  template: '{{ text }}',
+
+  template: '{{ text() }}',
 })
 export class ErrorSummaryComponent {
-  @Input({ required: true }) text = '';
+  text = model.required<string>();
 }
 
 @Directive({
@@ -34,7 +36,7 @@ export class NgModelGroupErrorSubscriberDirective implements AfterViewInit, OnDe
 
   #componentRef: ComponentRef<ErrorSummaryComponent> | undefined;
 
-  @Input('ngModelGroup') name = '';
+  name = input('', { alias: 'ngModelGroup' });
 
   ngAfterViewInit(): void {
     this.#bindFormSettingErrors().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe();
@@ -47,12 +49,12 @@ export class NgModelGroupErrorSubscriberDirective implements AfterViewInit, OnDe
   #bindFormSettingErrors() {
     return this.#formSetting.errors$.pipe(
       tap((errors) => {
-        const error = errors?.[this.name] ?? null;
+        const error = errors?.[this.name()] ?? null;
 
         if (error) {
           this.#componentRef?.destroy(); // Avoid component is rendered multiple times if error is already displayed
           this.#componentRef = this.#viewContainerRef.createComponent(ErrorSummaryComponent);
-          this.#componentRef.instance.text = error.auto;
+          this.#componentRef.instance.text.set(error.auto);
         } else {
           this.#componentRef?.destroy();
         }

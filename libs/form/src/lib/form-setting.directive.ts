@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { merge } from 'lodash-es';
 import { BehaviorSubject, distinctUntilChanged, tap } from 'rxjs';
 import { BaseSchema, Output, safeParse } from 'valibot';
+import { input } from '@angular/core';
 
 @Directive({
   // Hook in to <form>-elements providing a setting-Attribute.
