@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { formViewProviders, provideFormsSetting } from '@ng/form';
-import { input } from '@angular/core';
+import { CustomerFormModel } from './customer-form';
 
 @Component({
   selector: 'ng-passwords-form-group',
@@ -13,7 +13,7 @@ import { input } from '@angular/core';
   template: `
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input type="password" autocomplete="new-password" matInput [ngModel]="passwords().password" name="password" />
+      <input type="password" autocomplete="new-password" matInput [ngModel]="passwords()?.password" name="password" />
       <mat-error></mat-error>
     </mat-form-field>
 
@@ -23,7 +23,7 @@ import { input } from '@angular/core';
         type="password"
         autocomplete="new-password"
         matInput
-        [ngModel]="passwords().passwordConfirmed"
+        [ngModel]="passwords()?.passwordConfirmed"
         name="passwordConfirmed"
       />
       <mat-error></mat-error>
@@ -42,11 +42,5 @@ import { input } from '@angular/core';
   viewProviders: [formViewProviders],
 })
 export class PasswordsForm {
-  passwords = input<{
-    password: string;
-    passwordConfirmed: string;
-  }>({
-    password: '',
-    passwordConfirmed: '',
-  });
+  passwords = input<CustomerFormModel['passwords']>();
 }

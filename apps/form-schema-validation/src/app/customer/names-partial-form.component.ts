@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { formViewProviders, provideFormsSetting } from '@ng/form';
+import { CustomerFormModel } from './customer-form';
 
 @Component({
   selector: 'ng-names-form-group',
@@ -13,13 +14,13 @@ import { formViewProviders, provideFormsSetting } from '@ng/form';
   template: `
     <mat-form-field>
       <mat-label>First Name</mat-label>
-      <input type="text" autocomplete="name" matInput [ngModel]="names().firstName" name="firstName" #name="ngModel" />
+      <input type="text" autocomplete="name" matInput [ngModel]="names()?.firstName" name="firstName" #name="ngModel" />
       <mat-error></mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Last Name</mat-label>
-      <input type="text" autocomplete="family-name" matInput [ngModel]="names().lastName" name="lastName" />
+      <input type="text" autocomplete="family-name" matInput [ngModel]="names()?.lastName" name="lastName" />
       <mat-error></mat-error>
     </mat-form-field>
   `,
@@ -34,11 +35,5 @@ import { formViewProviders, provideFormsSetting } from '@ng/form';
   viewProviders: [formViewProviders],
 })
 export class NamesForm {
-  names = input<{
-    firstName: string;
-    lastName: string;
-  }>({
-    firstName: '',
-    lastName: '',
-  });
+  names = input<CustomerFormModel['names']>();
 }

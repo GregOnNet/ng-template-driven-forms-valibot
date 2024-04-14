@@ -1,10 +1,9 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideFormsSetting } from '@ng/form';
-import { Output } from 'valibot';
-import { CustomerFormSchema, initializeCustomerFormSetting } from './customer.form-setting';
+import { CustomerFormModel, CustomerFormValid, customerFormSchema } from './customer-form';
 import { NamesForm } from './names-partial-form.component';
 import { PasswordsForm } from './passwords.partial-form.component';
 
@@ -13,25 +12,30 @@ import { PasswordsForm } from './passwords.partial-form.component';
   standalone: true,
   imports: [FormsModule, MatButtonModule, NamesForm, PasswordsForm, provideFormsSetting(), JsonPipe],
   template: `
-    <form [setting]="formSetting" class="customer-form" (safeSubmit)="save($event)">
+    <form
+      #form="ngForm"
+      [schema]="customerFormSchema"
+      (safeSubmit)="save($event)"
+      (valueChanged)="formValue.set($event)"
+      class="customer-form"
+    >
       <h2>Create a new Customer</h2>
 
       <ng-container ngModelGroup="names">
         <h3>💁🏻‍♂️ What's your name?</h3>
-        <ng-names-form-group [names]="formSetting.model.names"></ng-names-form-group>
+        <ng-names-form-group [names]="formValue().names"></ng-names-form-group>
       </ng-container>
 
       <ng-container ngModelGroup="passwords">
         <h3>🔒 Set your Password</h3>
-        <ng-passwords-form-group [passwords]="formSetting.model.passwords"></ng-passwords-form-group>
+        <ng-passwords-form-group [passwords]="formValue().passwords"></ng-passwords-form-group>
       </ng-container>
 
       <button mat-raised-button color="primary">Save</button>
     </form>
-
     <pre>
 
-      <code>{{ formSetting.model | json }}</code>
+      <code>{{ formValue() | json }}</code>
 
     </pre>
   `,
@@ -43,9 +47,10 @@ import { PasswordsForm } from './passwords.partial-form.component';
   `,
 })
 export class CustomerFormComponent {
-  protected readonly formSetting = initializeCustomerFormSetting();
+  protected customerFormSchema = customerFormSchema;
+  protected formValue = signal<CustomerFormModel>({});
 
-  save(formValue: Output<typeof CustomerFormSchema>) {
+  save(formValue: CustomerFormValid) {
     console.log(formValue);
   }
 }

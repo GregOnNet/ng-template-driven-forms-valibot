@@ -1,58 +1,55 @@
 import { AfterViewInit, DestroyRef, Directive, inject, input, output } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { outputFromObservable, outputToObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgForm } from '@angular/forms';
-import { merge } from 'lodash-es';
-import { BehaviorSubject, distinctUntilChanged, map, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, map, tap } from 'rxjs';
 import { BaseSchema, Output, safeParse } from 'valibot';
+import { DeepPartial } from './deep-partial';
 
 @Directive({
   // Hook in to <form>-elements providing a setting-Attribute.
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: 'form[setting]',
+  selector: 'form',
   standalone: true,
 })
 export class FormSettingDirective<TSchema extends BaseSchema> implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
 
-  setting = input.required<{ schema: TSchema; model: Output<TSchema> }>();
+  public readonly ngForm = inject(NgForm, { self: true });
+
+  schema = input.required<TSchema>();
 
   safeSubmit = output<Output<TSchema>>();
 
-  public readonly ngForm = inject(NgForm, { self: true });
+  valueChanged = outputFromObservable<DeepPartial<Output<TSchema>>>(this.ngForm.valueChanges!.pipe(debounceTime(0)));
+
   public readonly errors$ = new BehaviorSubject<Record<string, { auto: string }> | null>(null);
 
   ngAfterViewInit(): void {
-    this.updateFormModelOnFormValueChanges();
-
-    this.ngForm.ngSubmit
-      .pipe(
-        map(() => safeParse(this.setting().schema, this.ngForm.value)),
-        tap((result) => (result.success ? this.safeSubmit.emit(result.output) : {})),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+    this.validateFormValuesOnValueChange();
+    this.emitSafeSubmitWhenValidationSucceeds();
   }
 
-  /**
-   * Whenever a value changes we update the formModel,
-   * that passes its updated values down dot the form-sections.
-   *
-   * That's why we do not need (ngModelChange) in a form-section, because
-   * it is fed by the parent formModel (unidirectional data-flow).
-   */
-  private updateFormModelOnFormValueChanges() {
-    this.ngForm?.form.valueChanges
+  private validateFormValuesOnValueChange() {
+    outputToObservable(this.valueChanged)
       .pipe(
-        distinctUntilChanged(),
-        tap((valueChanged) => merge(this.setting().model, valueChanged)),
         tap(() => this.errors$.next(this.validate())),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
 
+  private emitSafeSubmitWhenValidationSucceeds() {
+    this.ngForm.ngSubmit
+      .pipe(
+        map(() => safeParse(this.schema(), this.ngForm.value)),
+        tap((result) => (result.success ? this.safeSubmit.emit(result.output) : {})),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
   private validate(): Record<string, { auto: string }> | null {
-    const result = safeParse(this.setting().schema, this.setting().model);
+    const result = safeParse(this.schema(), this.ngForm.value);
 
     if (result.success) {
       return null;
