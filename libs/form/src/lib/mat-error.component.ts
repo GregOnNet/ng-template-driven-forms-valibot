@@ -8,20 +8,14 @@ import { MatFormFieldDirective } from './mat-form-field.directive';
   selector: 'mat-error',
   standalone: true,
   imports: [NgIf],
-  template: `
-    <ng-container *ngIf="isErrorRequiredToBeDisplayed">{{
-      error
-    }}</ng-container>
-  `,
+  template: ` <ng-container *ngIf="isErrorRequiredToBeDisplayed">{{ error }}</ng-container> `,
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class MatErrorComponent {
   protected readonly matFormField = inject(MatFormFieldDirective);
 
   protected get isErrorRequiredToBeDisplayed(): boolean {
-    return (
-      !!this.matFormField.ngModel?.errors && !!this.matFormField.ngModel.touched
-    );
+    return !!this.matFormField.ngModel?.errors;
   }
 
   protected get error() {
@@ -39,7 +33,5 @@ function hasOwnProperty<X extends object, Y extends PropertyKey>(
   candidate: X | undefined | null,
   propertyKey: Y
 ): candidate is X & Record<Y, unknown> {
-  return !candidate
-    ? false
-    : Object.prototype.hasOwnProperty.call(candidate, propertyKey);
+  return !candidate ? false : Object.prototype.hasOwnProperty.call(candidate, propertyKey);
 }

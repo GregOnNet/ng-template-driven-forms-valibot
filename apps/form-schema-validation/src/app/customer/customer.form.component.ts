@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideFormsSetting } from '@ng/form';
-import { initializeCustomerFormSetting } from './customer.form-setting';
+import { Output } from 'valibot';
+import { CustomerFormSchema, initializeCustomerFormSetting } from './customer.form-setting';
 import { NamesForm } from './names-partial-form.component';
 import { PasswordsForm } from './passwords.partial-form.component';
 
@@ -12,7 +13,7 @@ import { PasswordsForm } from './passwords.partial-form.component';
   standalone: true,
   imports: [FormsModule, MatButtonModule, NamesForm, PasswordsForm, provideFormsSetting(), JsonPipe],
   template: `
-    <form [setting]="formSetting" class="customer-form" (ngSubmit)="save()">
+    <form [setting]="formSetting" class="customer-form" (safeSubmit)="save($event)">
       <h2>Create a new Customer</h2>
 
       <ng-container ngModelGroup="names">
@@ -44,7 +45,7 @@ import { PasswordsForm } from './passwords.partial-form.component';
 export class CustomerFormComponent {
   protected readonly formSetting = initializeCustomerFormSetting();
 
-  save() {
-    throw new Error('Method not implemented.');
+  save(formValue: Output<typeof CustomerFormSchema>) {
+    console.log(formValue);
   }
 }
