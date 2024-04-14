@@ -1,10 +1,18 @@
-import { ControlContainer, NgForm } from '@angular/forms';
+import { Optional, Provider } from '@angular/core';
+import { ControlContainer, NgForm, NgModelGroup } from '@angular/forms';
 
-/*
- * Allows child component to connect to NgForm of a parent component.
- * Reference: https://youtu.be/CD_t3m2WMM8?t=1826
- */
-export const connectToNgForm = {
+const controlContainerProvider: Provider = {
   provide: ControlContainer,
-  useExisting: NgForm,
+  useFactory(ngForm: NgForm, ngModelGroup: NgModelGroup) {
+    return ngModelGroup || ngForm || null;
+  },
+  deps: [
+    [new Optional(), NgForm],
+    [new Optional(), NgModelGroup],
+  ],
 };
+
+export const formViewProviders = [
+  { provide: ControlContainer, useExisting: NgForm },
+  controlContainerProvider, // very important if we want nested components with ngModelGroup
+];
