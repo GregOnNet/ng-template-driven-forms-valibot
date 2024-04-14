@@ -4,13 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideFormsSetting } from '@ng/form';
 import { CustomerFormModel, CustomerFormValid, customerFormSchema } from './customer-form';
-import { NamesForm } from './names-partial-form.component';
-import { PasswordsForm } from './passwords.partial-form.component';
+import { NamesFormFragmentComponent } from './names-form-fragment.component';
+import { PasswordsFormFragmentComponent } from './passwords-form-fragment.component';
 
 @Component({
   selector: 'ng-customer-form',
   standalone: true,
-  imports: [FormsModule, MatButtonModule, NamesForm, PasswordsForm, provideFormsSetting(), JsonPipe],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    NamesFormFragmentComponent,
+    PasswordsFormFragmentComponent,
+    provideFormsSetting(),
+    JsonPipe,
+  ],
   template: `
     <form
       #form="ngForm"
@@ -23,12 +30,12 @@ import { PasswordsForm } from './passwords.partial-form.component';
 
       <ng-container ngModelGroup="names">
         <h3>💁🏻‍♂️ What's your name?</h3>
-        <ng-names-form-group [names]="formValue().names"></ng-names-form-group>
+        <ng-names-form-fragment [names]="formValue().names"/>
       </ng-container>
 
       <ng-container ngModelGroup="passwords">
         <h3>🔒 Set your Password</h3>
-        <ng-passwords-form-group [passwords]="formValue().passwords"></ng-passwords-form-group>
+        <ng-passwords-form-fragment [passwords]="formValue().passwords"/>
       </ng-container>
 
       <button mat-raised-button color="primary">Save</button>

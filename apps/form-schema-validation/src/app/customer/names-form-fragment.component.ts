@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,30 +7,22 @@ import { formViewProviders, provideFormsSetting } from '@ng/form';
 import { CustomerFormModel } from './customer-form';
 
 @Component({
-  selector: 'ng-passwords-form-group',
+  selector: 'ng-names-form-fragment',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, provideFormsSetting()],
+  imports: [NgIf, MatFormFieldModule, MatInputModule, FormsModule, provideFormsSetting()],
 
   template: `
     <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input type="password" autocomplete="new-password" matInput [ngModel]="passwords()?.password" name="password" />
+      <mat-label>First Name</mat-label>
+      <input type="text" autocomplete="name" matInput [ngModel]="names()?.firstName" name="firstName" #name="ngModel" />
       <mat-error></mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Confirm Password</mat-label>
-      <input
-        type="password"
-        autocomplete="new-password"
-        matInput
-        [ngModel]="passwords()?.passwordConfirmed"
-        name="passwordConfirmed"
-      />
+      <mat-label>Last Name</mat-label>
+      <input type="text" autocomplete="family-name" matInput [ngModel]="names()?.lastName" name="lastName" />
       <mat-error></mat-error>
     </mat-form-field>
-
-    <!--      <ng-error path="passwords()"/>-->
   `,
   styles: [
     `
@@ -41,6 +34,6 @@ import { CustomerFormModel } from './customer-form';
   ],
   viewProviders: [formViewProviders],
 })
-export class PasswordsForm {
-  passwords = input<CustomerFormModel['passwords']>();
+export class NamesFormFragmentComponent {
+  names = input<CustomerFormModel['names']>();
 }
