@@ -48,8 +48,8 @@ dependencies:
     specifier: ^2.3.0
     version: 2.5.3
   valibot:
-    specifier: 0.18.0
-    version: 0.18.0
+    specifier: 0.30.0
+    version: 0.30.0
   zone.js:
     specifier: 0.14.4
     version: 0.14.4
@@ -13404,8 +13404,8 @@ packages:
       '@types/istanbul-lib-coverage': 2.0.4
       convert-source-map: 1.9.0
 
-  /valibot@0.18.0:
-    resolution: {integrity: sha512-JpJ1ITTIAA4kuLDX5ygnjuMdeHryNI4cqx3vWQFisytTzH3/RBcTYJO336RSd/gRRRrYhIWf2RuST76p4TbdBw==}
+  /valibot@0.30.0:
+    resolution: {integrity: sha512-5POBdbSkM+3nvJ6ZlyQHsggisfRtyT4tVTo1EIIShs6qCdXJnyWU5TJ68vr8iTg5zpOLjXLRiBqNx+9zwZz/rA==}
     dev: false
 
   /validate-npm-package-license@3.0.4:
