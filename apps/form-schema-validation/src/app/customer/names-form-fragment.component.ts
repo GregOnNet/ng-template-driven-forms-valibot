@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { formViewProviders, provideFormsSetting } from '@ng/form';
-import { CustomerFormModelN } from './customer-form';
+import { CustomerFormModel } from './customer-form';
 
 @Component({
   selector: 'ng-names-form-fragment',
@@ -41,5 +41,5 @@ import { CustomerFormModelN } from './customer-form';
   viewProviders: [formViewProviders],
 })
 export class NamesFormFragmentComponent {
-  names = input<CustomerFormModelN['names']>();
+  names = input<CustomerFormModel['names']>();
 }

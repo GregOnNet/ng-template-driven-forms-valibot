@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideFormsSetting } from '@ng/form';
-import { CustomerFormModel, CustomerFormValid, createCustomerForm, customerFormSchema } from './customer-form';
+import { CustomerFormModel, CustomerFormValid, createCustomerForm as createCustomerSchema } from './customer-form';
 import { NamesFormFragmentComponent } from './names-form-fragment.component';
 import { PasswordsFormFragmentComponent } from './passwords-form-fragment.component';
 
@@ -19,12 +19,7 @@ import { PasswordsFormFragmentComponent } from './passwords-form-fragment.compon
     JsonPipe,
   ],
   template: `
-    <form
-      [schema]="customerForm"
-      (safeSubmit)="save($event)"
-      (valueChanged)="formValue.set($event)"
-      class="customer-form"
-    >
+    <form [schema]="schema" (safeSubmit)="save($event)" (valueChanged)="formValue.set($event)" class="customer-form">
       <h2>Create a new Customer</h2>
 
       <ng-container ngModelGroup="names">
@@ -54,10 +49,8 @@ import { PasswordsFormFragmentComponent } from './passwords-form-fragment.compon
   `,
 })
 export class CustomerFormComponent {
-  protected customerFormSchema = customerFormSchema;
+  protected schema = createCustomerSchema();
   protected formValue = signal<CustomerFormModel>({});
-
-  protected customerForm = createCustomerForm();
 
   save(formValue: CustomerFormValid) {
     console.log(formValue);
