@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideFormsSetting } from '@ng/form';
-import { CustomerFormModel, CustomerFormValid, customerFormSchema } from './customer-form';
+import { CustomerFormModel, CustomerFormValid, createCustomerForm, customerFormSchema } from './customer-form';
 import { NamesFormFragmentComponent } from './names-form-fragment.component';
 import { PasswordsFormFragmentComponent } from './passwords-form-fragment.component';
 
@@ -20,7 +20,7 @@ import { PasswordsFormFragmentComponent } from './passwords-form-fragment.compon
   ],
   template: `
     <form
-      [schema]="customerFormSchema"
+      [schema]="customerForm"
       (safeSubmit)="save($event)"
       (valueChanged)="formValue.set($event)"
       class="customer-form"
@@ -29,12 +29,12 @@ import { PasswordsFormFragmentComponent } from './passwords-form-fragment.compon
 
       <ng-container ngModelGroup="names">
         <h3>💁🏻‍♂️ What's your name?</h3>
-        <ng-names-form-fragment [names]="formValue().names"/>
+        <ng-names-form-fragment [names]="formValue().names" />
       </ng-container>
 
       <ng-container ngModelGroup="passwords">
         <h3>🔒 Set your Password</h3>
-        <ng-passwords-form-fragment [passwords]="formValue().passwords"/>
+        <ng-passwords-form-fragment [passwords]="formValue().passwords" />
       </ng-container>
 
       <button mat-raised-button color="primary">Save</button>
@@ -47,14 +47,17 @@ import { PasswordsFormFragmentComponent } from './passwords-form-fragment.compon
   `,
   styles: `
     .customer-form {
-    display: grid; gap: 1em;
-    padding: 5rem 20rem;
+      display: grid;
+      gap: 1em;
+      padding: 5rem 20rem;
     }
   `,
 })
 export class CustomerFormComponent {
   protected customerFormSchema = customerFormSchema;
   protected formValue = signal<CustomerFormModel>({});
+
+  protected customerForm = createCustomerForm();
 
   save(formValue: CustomerFormValid) {
     console.log(formValue);

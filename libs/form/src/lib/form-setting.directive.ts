@@ -1,8 +1,8 @@
 import { AfterViewInit, DestroyRef, Directive, inject, input, output } from '@angular/core';
 import { outputFromObservable, outputToObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgForm } from '@angular/forms';
-import { BehaviorSubject, debounceTime, map, tap } from 'rxjs';
-import { BaseSchema, Output, safeParse } from 'valibot';
+import { BehaviorSubject, debounceTime, switchMap, tap } from 'rxjs';
+import { BaseSchemaAsync, Output, safeParseAsync } from 'valibot';
 import { DeepPartial } from './deep-partial';
 
 @Directive({
@@ -11,18 +11,17 @@ import { DeepPartial } from './deep-partial';
   selector: 'form',
   standalone: true,
 })
-export class FormSettingDirective<TSchema extends BaseSchema> implements AfterViewInit {
-  private readonly destroyRef = inject(DestroyRef);
+export class FormSettingDirective<TSchema extends BaseSchemaAsync> implements AfterViewInit {
+  #destroyRef = inject(DestroyRef);
 
-  public readonly ngForm = inject(NgForm, { self: true });
+  readonly ngForm = inject(NgForm, { self: true });
+  readonly errors$ = new BehaviorSubject<Record<string, { auto: string }> | null>(null);
 
   schema = input.required<TSchema>();
 
   safeSubmit = output<Output<TSchema>>();
 
   valueChanged = outputFromObservable<DeepPartial<Output<TSchema>>>(this.ngForm.valueChanges!.pipe(debounceTime(0)));
-
-  public readonly errors$ = new BehaviorSubject<Record<string, { auto: string }> | null>(null);
 
   ngAfterViewInit(): void {
     this.validateFormValuesOnValueChange();
@@ -32,8 +31,10 @@ export class FormSettingDirective<TSchema extends BaseSchema> implements AfterVi
   private validateFormValuesOnValueChange() {
     outputToObservable(this.valueChanged)
       .pipe(
-        tap(() => this.errors$.next(this.validate())),
-        takeUntilDestroyed(this.destroyRef)
+        tap((v) => console.log(v)),
+        switchMap(() => this.validate()),
+        tap((result) => this.errors$.next(result)),
+        takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe();
   }
@@ -41,15 +42,15 @@ export class FormSettingDirective<TSchema extends BaseSchema> implements AfterVi
   private emitSafeSubmitWhenValidationSucceeds() {
     this.ngForm.ngSubmit
       .pipe(
-        map(() => safeParse(this.schema(), this.ngForm.value)),
+        switchMap(() => safeParseAsync(this.schema(), this.ngForm.value)),
         tap((result) => (result.success ? this.safeSubmit.emit(result.output) : {})),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe();
   }
 
-  private validate(): Record<string, { auto: string }> | null {
-    const result = safeParse(this.schema(), this.ngForm.value);
+  private async validate(): Promise<Record<string, { auto: string }> | null> {
+    const result = await safeParseAsync(this.schema(), this.ngForm.value);
 
     if (result.success) {
       return null;

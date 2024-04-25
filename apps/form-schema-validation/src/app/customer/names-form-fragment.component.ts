@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { formViewProviders, provideFormsSetting } from '@ng/form';
-import { CustomerFormModel } from './customer-form';
+import { CustomerFormModelN } from './customer-form';
 
 @Component({
   selector: 'ng-names-form-fragment',
@@ -12,6 +12,12 @@ import { CustomerFormModel } from './customer-form';
   imports: [NgIf, MatFormFieldModule, MatInputModule, FormsModule, provideFormsSetting()],
 
   template: `
+    <mat-form-field>
+      <mat-label>User Name</mat-label>
+      <input type="text" autocomplete="name" matInput [ngModel]="names()?.userName" name="userName" #name="ngModel" />
+      <mat-error></mat-error>
+    </mat-form-field>
+
     <mat-form-field>
       <mat-label>First Name</mat-label>
       <input type="text" autocomplete="name" matInput [ngModel]="names()?.firstName" name="firstName" #name="ngModel" />
@@ -35,5 +41,5 @@ import { CustomerFormModel } from './customer-form';
   viewProviders: [formViewProviders],
 })
 export class NamesFormFragmentComponent {
-  names = input<CustomerFormModel['names']>();
+  names = input<CustomerFormModelN['names']>();
 }
